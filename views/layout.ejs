@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><%- title %></title>
+		<title></title>
 		<meta charset="utf-8">
 		<link rel='stylesheet' href='/stylesheets/style.css'/>
 		<link rel='stylesheet' 
@@ -26,6 +26,17 @@
 				
 			</nav>
 			<section class="main" id="s1">
+				
+			<% if (errors.lenght){ 
+				console.log("LLEGO LAYOUT errors="+errors[0]);%>
+				
+				<span id='ErrorMsgs'>
+				Corregir errores:<br/>
+					<% for (var i in errors) { %>
+						<span><%= errors[i].message %></span><br/>
+					<%}%>
+				</span>
+				<%}%>
 				<div><%- body %></div>
 			</section>
 			
