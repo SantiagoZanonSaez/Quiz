@@ -55,7 +55,7 @@ exports.answer=function(req, res){
 
 exports.new=function(req, res){
 	var quiz = models.Quiz.build(
-		{pregunta: "Pregunta", respuesta: "Respuesta"}
+		{pregunta: "Pregunta", respuesta: "Respuesta", tema: "Tema"}
 	);
 	res.render('quizes/new', {quiz: quiz, title: 'Crear Pregunta', errors:[] });
 };
@@ -69,7 +69,7 @@ exports.create=function(req, res){
 			res.render('quizes/new', {quiz: quiz, errors: err.errors, errors:[]});
 		}
 		else{
-			quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+			quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
 				console.log("LLEGO CREATE REDIRECCION");
 				res.redirect('/quizes');
 			});
@@ -89,13 +89,14 @@ exports.update=function(req, res){
 	console.log("LLEGO UPDATE req.quiz.id="+req.quiz.id);*/
 	req.quiz.respuesta=req.body.quiz.respuesta;
 	req.quiz.pregunta=req.body.quiz.pregunta;
+	req.quiz.tema=req.body.quiz.tema;
 
 	req.quiz.validate().then(function(err){
 		if(err){
 			res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
 		}
 		else{
-			req.quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+			req.quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
 				console.log("LLEGO UPDATE REDIRECCION");
 				res.redirect('/quizes');
 			});
