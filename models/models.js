@@ -14,7 +14,7 @@ if(process.env && process.env.DATABASE_URL!==undefined){
 else{
 	console.log("CARGANDO CONFIGURACION BD HEROKU");
 	
-	var url="postgres://yhspqtftufxlvy:3qs-NLpm-OFtpPBxYp2kshZpx3@ec2-54-204-26-8.compute-1.amazonaws.com:5432/dcpvi441ogm94s".match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
+	var url="postgres://nkqzyzjoczhmpu:isznn16pOlPUu6JV_SSlr0yRQ-@ec2-50-19-233-111.compute-1.amazonaws.com:5432/dcmp0q2bhjbi50".match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 	for (var i=0; i<url.length; i++) {
         console.log('VALOR '+i+'='+url[i]);
     }
