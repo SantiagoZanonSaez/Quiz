@@ -9,6 +9,8 @@ var ejs = require('ejs');
 //IMPORTAMOS EXPRESS-PARTIALS PARA LAS VISTAS PARCIALES
 var partials = require('express-partials');
 var methodOverride = require('method-override');
+// Middleware para controlar la sesion
+var session = require('express-session');
 
 var routes = require('./routes/index');
 
@@ -26,11 +28,27 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({}));
-app.use(cookieParser());
+//semilla para codificar las sesiones (puede no tener semilla)
+app.use(cookieParser('Quiz 2015'));
+app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 //SOPORTE VISTAS PARCIALES
 app.use(partials());
+
+//helpers dinamicos:
+app.use(function(req,res, next){
+	
+	//guardar path en session.redir para despues de login
+	if(!req.path.match(/\/login|\/logout/)){
+		req.session.redir = req.path;
+	}
+	
+	//Hacer visible req.session en las vistas
+	res.locals.session =req.session;
+	next();
+	
+});
 
 app.use('/', routes);
 

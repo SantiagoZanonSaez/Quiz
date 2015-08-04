@@ -16,6 +16,11 @@
 	<body>
 		<div id="page-wrap">
 			<header class="mail" id="h1">
+				<%if(!session.user){%>
+					<span style="float: right"><a href="/login">Login</a></span>
+				<%}else{%>
+					<span style="float: right"><%= session.user.username%><a href="/logout">Logout</a></span>
+				<%}%>
 				<h2>Quiz<span>: el juego de las preguntas</span></h2>
 			</header>
 			<nav class="main" id="n1" role="navigation">
@@ -27,16 +32,18 @@
 			</nav>
 			<section class="main" id="s1">
 				
-			<% if (errors.lenght){ 
-				console.log("LLEGO LAYOUT errors="+errors[0]);%>
+			<% 
+				if(errors!==undefined){
+					if (errors.lenght){ 
+						console.log("LLEGO LAYOUT errors="+errors[0]);%>
 				
-				<span id='ErrorMsgs'>
-				Corregir errores:<br/>
-					<% for (var i in errors) { %>
-						<span><%= errors[i].message %></span><br/>
-					<%}%>
-				</span>
-				<%}%>
+					<span id='ErrorMsgs'>
+					Corregir errores:<br/>
+						<% for (var i in errors) { %>
+							<span><%= errors[i].message %></span><br/>
+						<%}%>
+					</span>
+				<%}}%>
 				<div><%- body %></div>
 			</section>
 			
