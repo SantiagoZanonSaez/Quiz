@@ -36,9 +36,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 //SOPORTE VISTAS PARCIALES
 app.use(partials());
 
+
+
+
 //helpers dinamicos:
 app.use(function(req,res, next){
+	var d = new Date();
 	
+	//CONTROL PARA CERRAR LA SESION DE USUARIO TRAS PASAR 2 MINUTOS SIN NAVEGAR
+	if(typeof req.session.user !== "undefined"){
+		var time =d.getTime();
+		
+		if(typeof req.session.time=== "undefined"){
+			req.session.time=d.getTime();
+		}
+		else{
+			if(time>req.session.time+120000){
+				console.log("DESTRUIMOS SESION DE USUARIO");
+				delete req.session.user;
+			}
+			else{
+				console.log("ACTUALIZO req.session.time: "+d.getTime());
+				req.session.time=d.getTime();
+			}
+		}		
+	}
 	//guardar path en session.redir para despues de login
 	if(!req.path.match(/\/login|\/logout/)){
 		req.session.redir = req.path;
@@ -46,6 +68,9 @@ app.use(function(req,res, next){
 	
 	//Hacer visible req.session en las vistas
 	res.locals.session =req.session;
+	
+	//Hacer visible time en las vistas
+	res.locals.time =time;
 	next();
 	
 });
